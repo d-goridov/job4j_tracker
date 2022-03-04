@@ -3,9 +3,9 @@ package ru.job4j.oop;
 import static java.lang.Math.sqrt;
 
 public class Triangle {
-    Point first;
-    Point second;
-    Point third;
+    private Point first;
+    private Point second;
+    private Point third;
 
     public Triangle(Point first, Point second, Point third) {
         this.first = first;
