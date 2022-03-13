@@ -10,8 +10,8 @@ public class StartUITest {
     public void whenCreateItem() {
         Input in = new StabInput(new String[]{"0", "Item name", "1"});
         Tracker tracker = new Tracker();
-        UserAction[] actions = {new CreateAction(), new ExitAction()};
-        new StartUI().init(in, tracker, actions);
+        UserAction[] actions = {new CreateAction(new StabOutput()), new ExitAction()};
+        new StartUI(new StabOutput()).init(in, tracker, actions);
         assertThat(tracker.findAll()[0].getName(), is("Item name"));
     }
 
@@ -24,10 +24,10 @@ public class StartUITest {
                 new String[] {"0", String.valueOf(item.getId()), "New item name", "1"}
         );
         UserAction[] actions = {
-                new EditAction(),
+                new EditAction(new StabOutput()),
                 new ExitAction()
         };
-        new StartUI().init(in, tracker, actions);
+        new StartUI(new StabOutput()).init(in, tracker, actions);
         assertThat(tracker.findById(item.getId()).getName(), is(replacedName));
     }
 
@@ -39,10 +39,10 @@ public class StartUITest {
                 new String[] {"0", String.valueOf(item.getId()), "1"}
         );
         UserAction[] actions = {
-                new DeleteAction(),
+                new DeleteAction(new StabOutput()),
                 new ExitAction()
         };
-        new StartUI().init(in, tracker, actions);
+        new StartUI(new StabOutput()).init(in, tracker, actions);
         assertThat(tracker.findById(item.getId()), is(nullValue()));
     }
 }
