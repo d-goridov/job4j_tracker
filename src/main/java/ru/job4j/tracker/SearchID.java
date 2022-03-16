@@ -15,6 +15,7 @@ public class SearchID implements UserAction {
 
     @Override
     public boolean execute(Input input, Tracker tracker) {
+        out.println("=== SearchID ===");
         int id = input.askInt("Enter id: ");
         Item item = tracker.findById(id);
         if (item != null) {

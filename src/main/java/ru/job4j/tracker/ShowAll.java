@@ -15,6 +15,7 @@ public class ShowAll implements UserAction {
 
     @Override
     public boolean execute(Input input, Tracker tracker) {
+        out.println("=== Show all items ===");
         Item[] items = tracker.findAll();
         if (items.length > 0) {
             for (Item item : items) {
@@ -23,6 +24,6 @@ public class ShowAll implements UserAction {
         } else {
             out.println("Хранилище еще не содержит заявок");
         }
-        return false;
+        return true;
     }
 }
