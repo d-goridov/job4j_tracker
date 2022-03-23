@@ -1,7 +1,6 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Tracker {
@@ -14,19 +13,24 @@ public class Tracker {
         return item;
     }
 
-    public Item findById(int id) {
-        Item result = null;
-        for (Item item: items) {
-            if (item.getId() == id) {
-                result = item;
+    private int indexOf(int id) {
+        int result = -1;
+        for (int index = 0; index < items.size(); index++) {
+            if (items.get(index).getId() == id) {
+                result = index;
                 break;
             }
         }
         return result;
     }
 
+    public Item findById(int id) {
+        int index = indexOf(id);
+        return index != -1 ? items.get(index) : null;
+    }
+
     public List<Item> findAll() {
-        return items;
+        return List.copyOf(items);
     }
 
     public List<Item> findByName(String key) {
@@ -41,27 +45,22 @@ public class Tracker {
 
     public boolean replace(int id, Item item) {
         boolean result = false;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getId() == id) {
-                item.setId(id);
-                items.set(i, item);
-                result = true;
-                break;
-            }
+        int index = indexOf(id);
+        if (index != -1) {
+            item.setId(items.get(index).getId());
+            items.set(index, item);
+            result = true;
         }
         return result;
+
     }
 
     public boolean delete(int id) {
         boolean result = false;
-        Iterator<Item> iterator = items.listIterator();
-        while (iterator.hasNext()) {
-            Item item = iterator.next();
-            if (item.getId() == id) {
-                iterator.remove();
-                result = true;
-                break;
-            }
+        int index = indexOf(id);
+        if (index != -1) {
+            items.remove(index);
+            result = true;
         }
         return result;
     }
