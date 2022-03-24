@@ -6,6 +6,11 @@ import java.util.Set;
 
 public class NotifyAccount {
     public static Set<Account> sent(List<Account> accounts) {
-        return new HashSet<>(accounts);
+        Set<Account> rsl = new HashSet<>();
+        for (Account element: accounts) {
+            rsl.add(element);
+        }
+        return rsl;
     }
 }
+
