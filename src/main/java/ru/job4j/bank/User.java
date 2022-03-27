@@ -2,6 +2,12 @@ package ru.job4j.bank;
 
 import java.util.Objects;
 
+/**
+ * Класс описывает профиль клиента в банковской системе
+ * который имеет личные данные номер паспорта и имя
+ * @author Dmitriy Goridov
+ * @version 1.0
+ */
 public class User {
     private String passport;
     private String username;

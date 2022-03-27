@@ -2,6 +2,12 @@ package ru.job4j.bank;
 
 import java.util.Objects;
 
+/**
+ * Класс описывает счет клиента в банковской системе,
+ * содержит данные о реквизитах и балансе данного счета
+ * @author Dmitriy Goridov
+ * @version 1.0
+ */
 public class Account {
     private String requisite;
     private double balance;
