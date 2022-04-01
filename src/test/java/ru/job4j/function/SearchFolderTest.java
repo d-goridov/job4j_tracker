@@ -1,6 +1,8 @@
-package function;
+package ru.job4j.function;
 
 import org.junit.Test;
+import ru.job4j.function.Folder;
+import ru.job4j.function.SearchFolder;
 
 import java.util.List;
 import java.util.function.Predicate;
