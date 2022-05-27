@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 public class StartUITest {
 
@@ -14,7 +14,7 @@ public class StartUITest {
     public void whenCreateItem() {
         Output out = new StabOutput();
         Input in = new StabInput(new String[]{"0", "Item name", "1"});
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         List<UserAction> actions = List.of(new CreateAction(out), new ExitAction(out));
         new StartUI(out).init(in, tracker, actions);
         assertThat(tracker.findAll().get(0).getName(), is("Item name"));
@@ -23,7 +23,7 @@ public class StartUITest {
     @Test
     public void whenReplaceItemTestOutputIsSuccessfully() {
         Output out = new StabOutput();
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("Test1"));
         String replacedName = "New Test1 name";
         Input in = new StabInput(
@@ -48,7 +48,7 @@ public class StartUITest {
     @Test
     public void whenDeleteItem() {
         Output out = new StabOutput();
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("Deleted item"));
         Input in = new StabInput(
                 new String[] {"0", String.valueOf(item.getId()), "1"}
@@ -64,7 +64,7 @@ public class StartUITest {
         Input in = new StabInput(
                 new String[] {"0"}
         );
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         List<UserAction> actions = List.of(new ExitAction(out));
         new StartUI(out).init(in, tracker, actions);
         assertThat(out.toString(), is(
@@ -77,7 +77,7 @@ public class StartUITest {
     @Test
     public void whenShowAllTestOutputIsSuccessfully() {
         Output out = new StabOutput();
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("Show Item"));
         Input in = new StabInput(new String[]{"0", "1"});
         List<UserAction> actions = List.of(new ShowAll(out), new ExitAction(out));
@@ -99,7 +99,7 @@ public class StartUITest {
     @Test
     public void whenFindByNameActionTestOutputIsSuccessfully() {
         Output out = new StabOutput();
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("For search item"));
         Input in = new StabInput(new String[]{"0", item.getName(), "1"});
         List<UserAction> actions = List.of(new SearchName(out), new ExitAction(out));
@@ -121,7 +121,7 @@ public class StartUITest {
     @Test
     public void whenFindByIDActionTestOutputIsSuccessfully() {
         Output out = new StabOutput();
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("For search id item"));
         Input in = new StabInput(new String[]{"0", String.valueOf(item.getId()), "1"});
         List<UserAction> actions = List.of(new SearchID(out), new ExitAction(out));
@@ -144,7 +144,7 @@ public class StartUITest {
     public void whenInvalidExit() {
         Output out = new StabOutput();
         Input in = new StabInput(new String[]{"5", "0"});
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         List<UserAction> actions = List.of(new ExitAction(out));
         new StartUI(out).init(in, tracker, actions);
         String ln = System.lineSeparator();
