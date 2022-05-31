@@ -2,9 +2,9 @@ package ru.job4j.search;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+
 import static org.junit.Assert.assertTrue;
 
 public class PhoneDictionaryTest {

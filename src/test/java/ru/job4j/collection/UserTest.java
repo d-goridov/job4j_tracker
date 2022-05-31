@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class UserTest {
 

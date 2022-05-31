@@ -1,14 +1,12 @@
 package ru.job4j.function;
 
 import org.junit.Test;
-import ru.job4j.function.Folder;
-import ru.job4j.function.SearchFolder;
 
 import java.util.List;
 import java.util.function.Predicate;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 
 public class SearchFolderTest {
 
