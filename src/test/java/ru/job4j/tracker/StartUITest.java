@@ -7,6 +7,10 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class StartUITest {
 
@@ -159,4 +163,110 @@ public class StartUITest {
         );
     }
 
+    @Test
+    public void whenEditItemIsSuccessfully() {
+        Output out = new StabOutput();
+        MemTracker tracker = new MemTracker();
+        tracker.add(new Item("Replaced item"));
+        String replacedName = "New item name";
+        EditAction rep = new EditAction(out);
+
+        Input input = mock(Input.class);
+
+        when(input.askInt(any(String.class))).thenReturn(1);
+        when(input.askStr(any(String.class))).thenReturn(replacedName);
+
+        rep.execute(input, tracker);
+
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is("=== Edit item ===" + ln + "Заявка изменена успешно." + ln));
+        assertThat(tracker.findAll().get(0).getName(), is(replacedName));
+    }
+
+    @Test
+    public void whenEditItemIsError() {
+        Output out = new StabOutput();
+        MemTracker tracker = new MemTracker();
+        tracker.add(new Item("Replaced item"));
+        String replacedName = "New item name";
+        EditAction rep = new EditAction(out);
+
+        Input input = mock(Input.class);
+
+        rep.execute(input, tracker);
+
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is("=== Edit item ===" + ln + "Ошибка замены заявки" + ln));
+        assertThat(tracker.findAll().get(0).getName(), is("Replaced item"));
+    }
+
+    @Test
+    public void whenRemoveItemIsSuccessfully() {
+        Output out = new StabOutput();
+        MemTracker tracker = new MemTracker();
+        tracker.add(new Item("Removed Item"));
+        DeleteAction del = new DeleteAction(out);
+
+        Input input = mock(Input.class);
+
+        when(input.askInt(any(String.class))).thenReturn(1);
+
+        del.execute(input, tracker);
+
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is("=== Delete item ===" + ln + "Заявка успешно удалена" + ln));
+        assertThat(tracker.findAll(), is(List.of()));
+    }
+
+    @Test
+    public void whenRemoveItemIsError() {
+        Output out = new StabOutput();
+        MemTracker tracker = new MemTracker();
+        tracker.add(new Item("Removed Item"));
+        DeleteAction del = new DeleteAction(out);
+
+        Input input = mock(Input.class);
+
+        del.execute(input, tracker);
+
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is("=== Delete item ===" + ln + "Ошибка удаления заявки" + ln));
+        assertEquals(tracker.findAll().get(0), new Item("Removed Item"));
+    }
+
+    @Test
+    public void whenFindItemByIdIsSuccessfully() {
+        Output out = new StabOutput();
+        MemTracker tracker = new MemTracker();
+        Item item = tracker.add(new Item("Detected Item"));
+        SearchID searchID = new SearchID(out);
+
+        Input input = mock(Input.class);
+
+        when(input.askInt(any(String.class))).thenReturn(1);
+
+        searchID.execute(input, tracker);
+
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is("=== SearchID ===" + ln + item + ln));
+        assertEquals(tracker.findAll().get(0), item);
+    }
+
+    @Test
+    public void whenFindItemByNameIsSuccessfully() {
+        Output out = new StabOutput();
+        MemTracker tracker = new MemTracker();
+        Item item = tracker.add(new Item("Detected Item"));
+        SearchName searchName = new SearchName(out);
+
+        Input input = mock(Input.class);
+
+        when(input.askStr(any(String.class))).thenReturn(item.getName());
+
+        searchName.execute(input, tracker);
+
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is("=== SearchName ===" + ln + item + ln));
+        assertEquals(tracker.findAll().get(0), item);
+    }
 }
