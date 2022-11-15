@@ -231,7 +231,7 @@ public class StartUITest {
 
         String ln = System.lineSeparator();
         assertThat(out.toString(), is("=== Delete item ===" + ln + "Ошибка удаления заявки" + ln));
-        assertEquals(tracker.findAll().get(0), new Item("Removed Item"));
+        assertEquals(tracker.findAll().get(0).getName(), new Item("Removed Item").getName());
     }
 
     @Test
