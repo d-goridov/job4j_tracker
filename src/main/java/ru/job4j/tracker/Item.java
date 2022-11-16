@@ -3,7 +3,6 @@ package ru.job4j.tracker;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -12,7 +11,7 @@ public class Item {
     @EqualsAndHashCode.Include
     private int id;
     private String name;
-    private Timestamp created = Timestamp.valueOf(LocalDateTime.now());
+    private LocalDateTime created = LocalDateTime.now();
 
     public Item() {
     }
@@ -26,7 +25,7 @@ public class Item {
         this.name = name;
     }
 
-    public Item(int id, String name, Timestamp created) {
+    public Item(int id, String name, LocalDateTime created) {
         this.id = id;
         this.name = name;
         this.created = created;
