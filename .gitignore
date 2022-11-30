@@ -24,9 +24,9 @@ hs_err_pid*
 
 .idea
 *.iml
+/testdb.mv.db
+/testdb.trace.db
 
 target
 out
 
-*.mv.db
-*.trace.db
