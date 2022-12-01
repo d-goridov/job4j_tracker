@@ -32,11 +32,12 @@ public class HmbTracker implements Store, AutoCloseable {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createQuery("update Item SET name = :fName where id = :fId")
+            Query<Item> query = session.createQuery("update Item SET name = :fName where id = :fId")
                    .setParameter("fName", item.getName())
-                   .setParameter("fId", id).executeUpdate();
+                   .setParameter("fId", id);
+            rsl = query.executeUpdate() > 0;
             session.getTransaction().commit();
-            rsl = true;
+
         } catch (Exception e) {
             session.getTransaction().rollback();
         }
@@ -50,10 +51,10 @@ public class HmbTracker implements Store, AutoCloseable {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createQuery("delete Item where id = :fId")
-                    .setParameter("fId", id).executeUpdate();
+            Query<Item> query = session.createQuery("delete Item where id = :fId")
+                    .setParameter("fId", id);
+            rsl = query.executeUpdate() > 0;
             session.getTransaction().commit();
-            rsl = true;
         } catch (Exception e) {
             session.getTransaction().rollback();
         }
@@ -66,7 +67,7 @@ public class HmbTracker implements Store, AutoCloseable {
         List<Item> rsl;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            rsl = session.createQuery("FROM Item").getResultList();
+            rsl = session.createQuery("FROM Item", Item.class).getResultList();
             session.getTransaction().commit();
         }
         return rsl;
@@ -77,7 +78,7 @@ public class HmbTracker implements Store, AutoCloseable {
         List<Item> rsl;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            rsl = session.createQuery("SELECT it FROM Item AS it WHERE name = :fName")
+            rsl = session.createQuery("SELECT it FROM Item AS it WHERE name = :fName", Item.class)
                          .setParameter("fName", key)
                          .getResultList();
             session.getTransaction().commit();
