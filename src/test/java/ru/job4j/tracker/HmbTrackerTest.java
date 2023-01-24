@@ -1,12 +1,6 @@
 package ru.job4j.tracker;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,19 +10,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 public class HmbTrackerTest {
-
-    @Before
-    public void clearDB() {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            for (Item item : session.createQuery("From Item", Item.class).list()) {
-                session.delete(item);
-            }
-            session.getTransaction().commit();
-        }
-    }
 
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
